@@ -1,6 +1,7 @@
 package com.ramphal.homerecipe
 
 
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -35,6 +36,7 @@ class MainViewModel: ViewModel() {
         }
     }
 
+    @Immutable
     data class RecipeState(
         val loading: Boolean = true,
         val list: List<Category> = emptyList(),

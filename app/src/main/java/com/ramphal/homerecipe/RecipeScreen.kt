@@ -9,7 +9,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -19,7 +21,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import coil3.compose.rememberAsyncImagePainter
+import coil.compose.rememberAsyncImagePainter
 
 @Composable
 fun RecipeScreen(modifier: Modifier = Modifier){
@@ -31,7 +33,6 @@ fun RecipeScreen(modifier: Modifier = Modifier){
                 CircularProgressIndicator(Modifier.align(Alignment.Center))
             }
             viewstate.error != null -> {
-                
                 Text(text = "Error")
             }
             else -> {
@@ -55,19 +56,19 @@ fun CategoryItem(category: Category){
     Column(modifier = Modifier
         .padding(8.dp)
         .fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally) 
+        horizontalAlignment = Alignment.CenterHorizontally)
     {
-        
+
         Image(painter = rememberAsyncImagePainter(category.strCategoryThumb),
             contentDescription = null,
             modifier = Modifier
                 .fillMaxSize()
                 .aspectRatio(1f))
-        
+
         Text(text = category.strCategory,
             style = TextStyle(fontWeight = FontWeight.Bold),
             modifier = Modifier.padding(top = 4.dp)
         )
-        
+
     }
 }

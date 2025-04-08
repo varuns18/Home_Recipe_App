@@ -60,7 +60,7 @@ dependencies {
     implementation (libs.converter.gson)
 
     // Coil for image loading in Compose
-    implementation(libs.coil.compose)
+    implementation(libs.coil.kt.coil.compose)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
