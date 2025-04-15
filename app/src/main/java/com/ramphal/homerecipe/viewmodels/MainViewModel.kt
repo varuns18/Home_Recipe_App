@@ -1,34 +1,35 @@
-package com.ramphal.homerecipe
-
+package com.ramphal.homerecipe.viewmodels
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ramphal.homerecipe.data.ListOfMeals
+import com.ramphal.homerecipe.api.recipeService
 import kotlinx.coroutines.launch
 
 class MainViewModel: ViewModel() {
 
-    private val _categorieState = mutableStateOf(RecipeState())
-    val categoriesState: State<RecipeState> = _categorieState
+    private val _mealsListState = mutableStateOf(RecipeState())
+    val mealsListState: State<RecipeState> = _mealsListState
 
     init {
-        fetchCategories()
+        fetchMealList()
     }
 
-    private fun fetchCategories(){
+    private fun fetchMealList(){
         viewModelScope.launch {
             try {
-                val response = recipeService.getCategories()
-                _categorieState.value = _categorieState.value.copy(
-                    list = response.categories,
+                val response = recipeService.getListOfMeals()
+                _mealsListState.value = _mealsListState.value.copy(
+                    list = response.listOfMeals,
                     loading = false,
                     error = null
                 )
 
             }catch (e: Exception){
-                _categorieState.value = _categorieState.value.copy(
+                _mealsListState.value = _mealsListState.value.copy(
                     loading = false,
                     error = "Error fatching categories ${e.message}"
                 )
@@ -39,7 +40,7 @@ class MainViewModel: ViewModel() {
     @Immutable
     data class RecipeState(
         val loading: Boolean = true,
-        val list: List<Category> = emptyList(),
+        val list: List<ListOfMeals> = emptyList(),
         val error: String? = null
     )
 
