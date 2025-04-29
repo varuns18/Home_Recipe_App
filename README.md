@@ -1,12 +1,15 @@
 # Home Recipe App
 
-Welcome to the **Home Recipe App** repository! This project aims to provide an intuitive and user-friendly application for managing and exploring recipes at home, built using **Kotlin**. Whether you're a cooking enthusiast or a beginner, this app is designed to simplify your culinary journey.
+Welcome to the **Home Recipe App** repository! This project is a modern recipe management application designed to simplify your culinary adventures. Built with **Material Design 3** and **Jetpack Compose**, the app provides a sleek and user-friendly experience for managing and exploring recipes. It also integrates with the **Meal DB API** to fetch recipe data seamlessly.
 
 ## Features
 
-- **Search Functionality**: Easily search for recipes using keywords.
-- **User-Friendly Interface**: A simple and clean UI for a seamless experience.
-- **Kotlin-Powered**: Developed with Kotlin, ensuring a modern and efficient codebase.
+- **Recipe Management**: Add, edit, and organize your favorite recipes.
+- **Meal DB API Integration**: Access a wide variety of recipes directly from the Meal DB API.
+- **Material Design 3**: Provides a clean and modern user interface.
+- **Jetpack Compose**: Ensures efficient UI development and a smooth user experience.
+- **Search Functionality**: Quickly find recipes using intuitive search features.
+- **User-Friendly Interface**: Built for ease of use, whether you're a seasoned cook or a beginner.
 
 ## Getting Started
 
@@ -15,7 +18,7 @@ Welcome to the **Home Recipe App** repository! This project aims to provide an i
 To run this application, you'll need:
 
 - **Android Studio** (latest version recommended)
-- A device or emulator running Android 5.0 (Lollipop) or higher
+- A device or emulator running Android 7.0 or higher
 
 ### Installation
 
@@ -27,9 +30,12 @@ To run this application, you'll need:
 3. Sync the project with Gradle files.
 4. Build and run the app on your preferred device or emulator.
 
-## Contributing
+## Technologies Used
 
-Contributions are welcome! If you'd like to suggest features, fix bugs, or improve the code, please feel free to open an issue or submit a pull request.
+- **Kotlin**: The primary programming language for the application.
+- **Jetpack Compose**: A modern toolkit for building native Android user interfaces.
+- **Material Design 3**: Ensures a cohesive and visually appealing design language.
+- **Meal DB API**: Provides a rich database of recipes and meal information.
 
 ## 🤝 Contributing
 
