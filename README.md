@@ -4,7 +4,6 @@ Welcome to the **Home Recipe App** repository! This project aims to provide an i
 
 ## Features
 
-- **Recipe Management**: Add, edit, and organize your favorite recipes.
 - **Search Functionality**: Easily search for recipes using keywords.
 - **User-Friendly Interface**: A simple and clean UI for a seamless experience.
 - **Kotlin-Powered**: Developed with Kotlin, ensuring a modern and efficient codebase.
