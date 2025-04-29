@@ -1,42 +1,44 @@
 package com.ramphal.homerecipe
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredSize
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.KeyboardArrowRight
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ElevatedCard
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.rememberAsyncImagePainter
-import com.ramphal.homerecipe.data.ListOfMeals
+import com.ramphal.homerecipe.model.HomeMeal
+import com.ramphal.homerecipe.model.homeMealsList
+import com.ramphal.homerecipe.ui.theme.HomeRecipeTheme
 import com.ramphal.homerecipe.viewmodels.MainViewModel
+
 
 @Composable
 fun HomeScreen(
@@ -44,7 +46,6 @@ fun HomeScreen(
     navigatingToRecipeDetails:(String) -> Unit,
     viewState: MainViewModel.RecipeState
 ){
-
     Box(modifier = modifier.fillMaxSize()){
         when{
             viewState.loading -> {
@@ -60,28 +61,44 @@ fun HomeScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CategoryScreen(meals: List<ListOfMeals>, navigatingToRecipeDetails:(String) -> Unit){
-    val lezyState = rememberLazyGridState()
-    LazyVerticalGrid (columns = GridCells.Fixed(2), modifier = Modifier.fillMaxSize(), state = lezyState) {
-        items (meals, key = {
-            it.idMeal
-        }) {
-            CategoryItem(meals = it, navigatingToRecipeDetails = navigatingToRecipeDetails)
+fun CategoryScreen(
+    meals: List<HomeMeal>,
+    navigatingToRecipeDetails: (String) -> Unit
+) {
+    val listState = rememberLazyListState()
+
+    LazyColumn(
+        state = listState,
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(8.dp)
+    ) {
+        items(
+            items = meals,
+            key = { it.id }
+        ) { meal ->
+            CategoryItem(
+                meals = meal,
+                navigatingToRecipeDetails = navigatingToRecipeDetails
+            )
         }
     }
 }
 
+
+
 @Composable
-fun CategoryItem(meals: ListOfMeals, navigatingToRecipeDetails:(String) -> Unit){
+fun CategoryItem(meals: HomeMeal, navigatingToRecipeDetails:(String) -> Unit){
     Box(
-        modifier = Modifier.padding(10.dp)
+        modifier = Modifier.padding(8.dp)
     ) {
         ImageCard(
-            id = meals.idMeal,
-            title = meals.strMeal,
-            painter = rememberAsyncImagePainter(meals.strMealThumb),
+            id = meals.id,
+            title = meals.name,
+            painter = painterResource(meals.thumbnail),
+            castigator = meals.category,
+            area = meals.area,
             navigatingToRecipeDetails = navigatingToRecipeDetails
         )
     }
@@ -92,87 +109,75 @@ fun ImageCard(
     id: String,
     painter: Painter,
     title: String,
+    castigator: String,
+    area: String,
     modifier: Modifier = Modifier,
     navigatingToRecipeDetails:(String) -> Unit
 ) {
-    ElevatedCard(
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant
-        ),
-        modifier = Modifier.fillMaxWidth().clickable{
-            navigatingToRecipeDetails(id)
-        },
-        shape = RoundedCornerShape(16.dp)
-    ) {
-
-        Box(modifier = Modifier.fillMaxSize().padding(6.dp)) {
-
-            Card(shape = RoundedCornerShape(15.dp)) {
-                Image(
-                    painter = painter,
-                    contentDescription = "Image of $title",
-                    Modifier.fillMaxWidth()
-                        .height(130.dp),
-                    contentScale = ContentScale.Crop
-                )
-            }
-            Column (
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+            .clickable(onClick = {navigatingToRecipeDetails(id)}),
+        shape = RoundedCornerShape(8.dp)
+    ){
+        Box(modifier = Modifier.fillMaxSize()) {
+            Image(
+                painter = painter,
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize()
-                    .padding(top = 136.dp, start = 6.dp, end = 6.dp)
+            )
+
+            Box(
+                modifier = Modifier
+                    .matchParentSize()
+                    .background(
+                        brush = Brush.verticalGradient(
+                            colors = listOf(
+                                Color.Transparent,
+                                Color.Black.copy(alpha = 0.8f)
+                            )
+                        )
+                    )
+            )
+
+            Column(
+                modifier = Modifier
+                    .align(Alignment.BottomStart)
+                    .padding(start = 16.dp, bottom = 16.dp)
             ) {
-                Text(text = title, style = MaterialTheme.typography.titleMedium)
-                Text(text = title, style = MaterialTheme.typography.bodySmall)
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.headlineLarge,
+                    color = Color.White
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Row {
+                    Icon(imageVector = ImageVector.vectorResource(R.drawable.area_24px), contentDescription = null, tint = Color.White)
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text(text = area, color = Color.White)
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Icon(imageVector = ImageVector.vectorResource(R.drawable.category_24px), contentDescription = null, tint = Color.White)
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text(text = castigator, color = Color.White)
+                }
             }
         }
-
     }
 }
 
 
+
+@Preview(showBackground = true)
 @Composable
-fun ImageCardHorizontal(
-    painter: Painter,
-    contentDescription: String,
-    title: String,
-    modifier: Modifier = Modifier
-) {
-    ElevatedCard(
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(16.dp)
-    ) {
-
-        Row (modifier = Modifier.fillMaxSize().padding(6.dp)) {
-
-            Card(shape = RoundedCornerShape(15.dp)) {
-                Image(
-                    painter = painter,
-                    contentDescription = "Image of $title",
-                    Modifier.fillMaxWidth(0.36f)
-                        .height(130.dp),
-                    contentScale = ContentScale.Crop
-                )
-            }
-            Column (
-                modifier = Modifier.padding(start = 12.dp, top = 6.dp, end = 6.dp, bottom = 6.dp)
-            ) {
-                Text(text = title, style = MaterialTheme.typography.titleMedium)
-                Text(text = title, style = MaterialTheme.typography.bodySmall)
-            }
-            Column(
-                modifier = Modifier.padding(15.dp),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                IconButton(onClick = {}) {
-                    Icon(
-                        imageVector = Icons.Outlined.KeyboardArrowRight,
-                        contentDescription = "",
-                        tint = Color.White,
-                        modifier = Modifier.requiredSize(20.dp)
-                    )
-                }
-            }
+fun CategoryScreenPreview() {
+    HomeRecipeTheme {
+        Surface(modifier = Modifier.fillMaxSize()) {
+            CategoryScreen(
+                meals = homeMealsList,
+                navigatingToRecipeDetails = {}
+            )
         }
-
     }
 }

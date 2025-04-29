@@ -6,7 +6,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ramphal.homerecipe.api.recipeDetailService
-import com.ramphal.homerecipe.data.RecipeDetails
+import com.ramphal.homerecipe.model.RecipeDetails
 import kotlinx.coroutines.launch
 
 class DetailViewModel(savedStateHandle: SavedStateHandle): ViewModel(){

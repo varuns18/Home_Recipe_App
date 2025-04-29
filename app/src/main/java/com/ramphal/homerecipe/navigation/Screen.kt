@@ -1,4 +1,4 @@
-package com.ramphal.homerecipe
+package com.ramphal.homerecipe.navigation
 
 
 

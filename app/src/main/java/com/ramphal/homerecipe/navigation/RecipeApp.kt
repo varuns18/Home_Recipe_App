@@ -1,4 +1,4 @@
-package com.ramphal.homerecipe
+package com.ramphal.homerecipe.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -9,6 +9,8 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.ramphal.homerecipe.HomeScreen
+import com.ramphal.homerecipe.RecipeDetails
 import com.ramphal.homerecipe.viewmodels.DetailViewModel
 import com.ramphal.homerecipe.viewmodels.MainViewModel
 

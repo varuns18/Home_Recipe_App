@@ -1,4 +1,4 @@
-package com.ramphal.homerecipe.data
+package com.ramphal.homerecipe.model
 
 import com.google.gson.annotations.SerializedName
 
